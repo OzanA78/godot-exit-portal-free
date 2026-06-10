@@ -1,0 +1,173 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://addons/exit_portal_free/exit_room.gd" id="2_room"]
+[ext_resource type="Texture2D" path="res://addons/exit_portal_free/textures/tex_02.png" id="3_tex"]
+
+[sub_resource type="PlaneMesh" id="Mesh_floor"]
+size = Vector2(21, 21)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxShape3D" id="Shape_room_back"]
+size = Vector3(21.0, 6, 0.5)
+
+[sub_resource type="BoxMesh" id="Mesh_room_back"]
+size = Vector3(21.0, 6, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_room_side"]
+size = Vector3(0.5, 6, 21.0)
+
+[sub_resource type="BoxMesh" id="Mesh_room_side"]
+size = Vector3(0.5, 6, 21.0)
+
+[sub_resource type="BoxShape3D" id="Shape_room_front"]
+size = Vector3(9.0, 6, 0.5)
+
+[sub_resource type="BoxMesh" id="Mesh_room_front"]
+size = Vector3(9.0, 6, 0.5)
+
+[sub_resource type="PlaneMesh" id="Mesh_face_side"]
+size = Vector2(21.0, 6)
+orientation = 2
+
+[sub_resource type="PlaneMesh" id="Mesh_face_front"]
+size = Vector2(9.0, 6)
+orientation = 2
+
+[sub_resource type="PlaneMesh" id="Mesh_face_back"]
+size = Vector2(21.0, 6)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="Mat_room"]
+resource_name = "room"
+albedo_color = Color(1, 1, 1, 1)
+metallic = 0.8
+roughness = 0.3
+
+[node name="ExitRoom" type="Node3D"]
+script = ExtResource("2_room")
+wall_texture = ExtResource("3_tex")
+floor_texture = ExtResource("3_tex")
+emission_energy = 0.9
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.5)
+mesh = SubResource("Mesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="RoomLeft" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.25, 3.0, -10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RoomLeft"]
+shape = SubResource("Shape_room_side")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RoomLeft"]
+cast_shadow = 0
+mesh = SubResource("Mesh_room_side")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="Face" type="MeshInstance3D" parent="RoomLeft"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.26, 0, 0)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_side")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="FaceOut" type="MeshInstance3D" parent="RoomLeft"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -0.26, 0, 0)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_side")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="RoomRight" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.25, 3.0, -10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RoomRight"]
+shape = SubResource("Shape_room_side")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RoomRight"]
+cast_shadow = 0
+mesh = SubResource("Mesh_room_side")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="Face" type="MeshInstance3D" parent="RoomRight"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -0.26, 0, 0)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_side")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="FaceOut" type="MeshInstance3D" parent="RoomRight"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.26, 0, 0)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_side")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="RoomFrontLeft" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.25, 3.0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RoomFrontLeft"]
+shape = SubResource("Shape_room_front")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RoomFrontLeft"]
+cast_shadow = 0
+mesh = SubResource("Mesh_room_front")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="Face" type="MeshInstance3D" parent="RoomFrontLeft"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -0.26)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_front")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="FaceOut" type="MeshInstance3D" parent="RoomFrontLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.26)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_front")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="RoomFrontRight" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.25, 3.0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RoomFrontRight"]
+shape = SubResource("Shape_room_front")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RoomFrontRight"]
+cast_shadow = 0
+mesh = SubResource("Mesh_room_front")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="Face" type="MeshInstance3D" parent="RoomFrontRight"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -0.26)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_front")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="FaceOut" type="MeshInstance3D" parent="RoomFrontRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.26)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_front")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="RoomBack" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, -21.0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RoomBack"]
+shape = SubResource("Shape_room_back")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RoomBack"]
+cast_shadow = 0
+mesh = SubResource("Mesh_room_back")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="Face" type="MeshInstance3D" parent="RoomBack"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.26)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_back")
+surface_material_override/0 = SubResource("Mat_room")
+
+[node name="FaceOut" type="MeshInstance3D" parent="RoomBack"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -0.26)
+cast_shadow = 0
+mesh = SubResource("Mesh_face_back")
+surface_material_override/0 = SubResource("Mat_room")

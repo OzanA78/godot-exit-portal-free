@@ -1,0 +1,82 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/exit_portal_free/portal_wobble.gd" id="1_script"]
+[ext_resource type="Script" path="res://addons/exit_portal_free/orbit_camera.gd" id="3_cam"]
+[ext_resource type="PackedScene" path="res://addons/exit_portal_free/exit_room.tscn" id="4_room"]
+[ext_resource type="Script" path="res://addons/exit_portal_free/showcase.gd" id="5_showcase"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_col"]
+radius = 2.0
+height = 6.0
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(0.04, 0.04, 0.07, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.1, 0.1, 0.15, 1)
+ambient_light_energy = 1.5
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.1
+glow_hdr_threshold = 0.9
+
+[node name="Root" type="Node3D"]
+script = ExtResource("5_showcase")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("3_cam")
+target = Vector3(0, 1.5, -10.5)
+distance = 13.0
+
+[node name="RoomLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -10.5)
+light_energy = 1.2
+omni_range = 28.0
+omni_attenuation = 0.4
+
+[node name="FrontLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 4)
+light_energy = 1.5
+omni_range = 28.0
+omni_attenuation = 0.4
+
+[node name="WallLightNorth" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -19.5)
+light_energy = 1.2
+omni_range = 22.0
+omni_attenuation = 0.5
+
+[node name="WallLightSouth" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -1.5)
+light_energy = 1.2
+omni_range = 22.0
+omni_attenuation = 0.5
+
+[node name="WallLightEast" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.75, 4, -10.5)
+light_energy = 1.2
+omni_range = 22.0
+omni_attenuation = 0.5
+
+[node name="WallLightWest" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.75, 4, -10.5)
+light_energy = 1.2
+omni_range = 22.0
+omni_attenuation = 0.5
+
+[node name="PortalWobble" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.5)
+script = ExtResource("1_script")
+rotation_speed = 45.0
+glow_color = Color(0.0, 1.0, 0.88, 1)
+coin_color_a = Color(0.1, 1.0, 0.2, 1)
+coin_color_b = Color(1.0, 0.9, 0.0, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PortalWobble"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)
+shape = SubResource("CylinderShape3D_col")
+
+[node name="ExitRoom" parent="." instance=ExtResource("4_room")]
